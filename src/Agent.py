@@ -29,11 +29,5 @@ class Agent:
     def move_up(self):
         self.position.shift(0., 100.)
 
-    def move_left(self):
-        self.position.shift(-100., 0.)
-
-    def move_right(self):
-        self.position.shift(100., 0.)
-
     def _draw_body(self, width, height):
         self._body(self.position.x, self.position.y, width, height)

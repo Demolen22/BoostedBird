@@ -1,34 +1,39 @@
+import string
+
 import arcade
+
 from Agent import Agent
-from Drawing import draw_rectangle
-from Position import Position
-
-
-def _draw_scene(width: float, height: float):
-    draw_rectangle(0, 0, width, height, color=arcade.color.AERO_BLUE)
-    draw_rectangle(0, 0, width, int(height * 0.1), color=arcade.color.GO_GREEN)
+from Base import Base
 
 
 class Application(arcade.Window):
-
-    def __init__(self):
-        super().__init__(1920, 1080, resizable=True)
+    def __init__(self, width: int, height: int, title: string, scroll_speed: int = 40):
+        super().__init__(width, height, title, resizable=True)
         self.agent = Agent()
-        self.move_dict = {arcade.key.LEFT: self.agent.move_left,
-                          arcade.key.RIGHT: self.agent.move_right,
-                          arcade.key.UP: self.agent.move_up,
-                          arcade.key.DOWN: self.agent.move_down}
+        self.move_dict = {
+            arcade.key.UP: self.agent.move_up,
+            arcade.key.DOWN: self.agent.move_down
+        }
+        self.base = Base('../images/backgrounds/base_rescaled.png', self.width, scroll_speed)
+        self.background = arcade.load_texture('../images/backgrounds/bg.png')
+        self.base_x = 0
+        self.score = 0
+        self.scroll_speed = scroll_speed
 
     def run(self):
         arcade.run()
 
+    def _draw_scene(self):
+        arcade.draw_lrwh_rectangle_textured(0, 0, self.width, self.height, self.background)
+
     def on_draw(self):
-        self.clear()
-        _draw_scene(self.width, self.height)
+        arcade.start_render()
+        self._draw_scene()
+        self.base.draw()
         self.agent.draw(self.width, self.height)
 
     def on_update(self, dt: float):
-        pass
+        self.base.update(dt)
 
     def on_mouse_drag(self, x: float, y: float, dx: float, dy: float, buttons: int, modifiers: int):
         pass
@@ -46,14 +51,3 @@ class Application(arcade.Window):
         action = self.move_dict.get(symbol)
         if action is not None:
             action()
-
-
-
-
-
-
-
-
-
-
-
