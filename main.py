@@ -16,7 +16,7 @@ BASE_IMG = pygame.transform.scale2x(pygame.image.load(os.path.join("images", "ba
 BG_IMG = pygame.transform.scale2x(pygame.image.load(os.path.join("images", "backgrounds", "bg.png")))
 
 pygame.font.init()
-STAT_FONT = pygame.font.SysFont("comicsans", 30)
+STAT_FONT = pygame.font.SysFont("comicsans", 20)
 
 
 class Bird:
@@ -154,17 +154,20 @@ class Base:
         win.blit(self.IMG, (self.x2, self.y))
 
 
-def draw_window(win, birds, pipes, base, score, gen):
+def draw_window(win, birds, pipes, base, score, gen, alive):
     win.blit(BG_IMG, (0, 0))
 
     for pipe in pipes:
         pipe.draw(win)
 
-    text = STAT_FONT.render("Score: " + str(score), 1, (255, 255, 255))
+    text = STAT_FONT.render("Generation: " + str(gen), 1, (255, 255, 255))
     win.blit(text, (WINDOW_WIDTH - 10 - text.get_width(), 10))
 
-    text = STAT_FONT.render("Gen: " + str(gen), 1, (255, 255, 255))
-    win.blit(text, (10, 10))
+    text = STAT_FONT.render("Alive: " + str(alive), 1, (255, 255, 255))
+    win.blit(text, (WINDOW_WIDTH - 10 - text.get_width(), 70))
+
+    text = STAT_FONT.render("Score: " + str(score), 1, (255, 255, 255))
+    win.blit(text, (WINDOW_WIDTH - 10 - text.get_width(), 40))
 
     base.draw(win)
     for bird in birds:
@@ -209,7 +212,6 @@ def main(genome, config):  # fitness function
             if len(pipes) > 1 and birds[0].x > pipes[0].x + pipes[0].PIPE_TOP.get_width():  # to fix
                 pipe_ind = 1
         else:
-            run = False
             break
 
         for x, bird in enumerate(birds):
@@ -261,7 +263,7 @@ def main(genome, config):  # fitness function
 
         base.move()
 
-        draw_window(win, birds, pipes, base, score, GEN)
+        draw_window(win, birds, pipes, base, score, GEN, len(birds))
 
 
 def run(config_path):
@@ -272,7 +274,7 @@ def run(config_path):
     p.add_reporter(neat.StdOutReporter(True))
     stats = neat.StatisticsReporter()
     p.add_reporter(stats)
-    winner = p.run(main, 50)
+    p.run(main, 50)
 
 
 if __name__ == '__main__':
