@@ -23,7 +23,7 @@ Aby uruchomić tę grę, potrzebujesz:
    - `fitness_threshold`: Ustala minimalną wartość fitness, którą musi osiągnąć organizm, aby móc przetrwać do kolejnego pokolenia. Zmniejszenie tego progu może przyspieszyć ewolucję, ale ryzykuje utratą zdobytej do tej pory wiedzy.
    - `bias`: Parametry związane z biasem w sieciach neuronowych, takie jak `bias_init_mean`, `bias_init_stdev`, `bias_max_value`, `bias_min_value`, `bias_mutate_power`, `bias_mutate_rate`, i `bias_replace_rate`. Dostosowanie tych wartości pozwala na modyfikację sposobu, w jaki sieć uczy się reprezentować dane wejściowe i wyjściowe.
 
-3. Wykonaj skrypt `python main.py` z ścieżką do pliku konfiguracyjnego jako argument:
+3. Wykonaj skrypt `python main.py`
 
 
 ##
